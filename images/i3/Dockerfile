@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:28 
+FROM registry.fedoraproject.org/fedora:29 
 
 COPY root /
 
@@ -8,8 +8,9 @@ RUN dnf install -y hostname \
     touch /etc/machine-id && \
     dnf clean all
 
-ENV APP_ROOT=/opt/app-root UID=1000 container=oci
-ENV PATH=${APP_ROOT}/bin:${PATH} HOME=${APP_ROOT} USER_NAME=user
+ENV USER_NAME=user
+ENV APP_ROOT=/home/${USER_NAME} UID=1000 container=oci
+ENV PATH=${APP_ROOT}/bin:${PATH} HOME=${APP_ROOT}
 COPY user/ ${APP_ROOT}
 COPY bin/ ${APP_ROOT}/bin/
 
