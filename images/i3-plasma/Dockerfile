@@ -1,14 +1,14 @@
-FROM registry.fedoraproject.org/fedora:28 
+FROM registry.fedoraproject.org/fedora:29 
 
 COPY root /
 
 RUN dnf install -y 'dnf-command(copr)' && \
-    dnf copr enable -y yaroslav/i3desktop && \
+    dnf copr enable -y gregw/i3desktop && \
     dnf groupinstall -y 'KDE Plasma Workspaces'
 
 RUN dnf install -y hostname \
-	xorg-x11-drv-evdev libX11-xcb xorg-x11-xinit xorg-x11-server-Xorg xorg-x11-drv-intel \
-	i3-gaps vim which findutils procps-ng openssl git which && \
+	xorg-x11-drv-evdev libX11-xcb xorg-x11-xinit xorg-x11-server-Xorg xorg-x11-drv-intel wmctrl \
+	i3-gaps vim which findutils procps-ng openssl git which xorg-x11-drv-qxl spice-vdagent && \
     touch /etc/machine-id && \
     dnf clean all
 
@@ -28,4 +28,4 @@ USER ${USER_NAME}
 WORKDIR ${APP_ROOT}
 
 ENTRYPOINT [ "uid_entrypoint" ] 
-CMD ["startx", "/usr/bin/i3", "--", ":1"]
+CMD ["startx", "/usr/bin/startkde", "--", ":1"]
